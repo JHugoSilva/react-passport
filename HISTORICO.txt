@@ -1,0 +1,7 @@
+npx create-react-app laravel
+npm i @material-ui/core
+npm i @material-ui/icons
+npm i react-redux redux
+npm i react-router-dom --save
+npm i axios --save
+npm i redux-thunk --save
