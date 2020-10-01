@@ -1,5 +1,6 @@
 import { Http } from '../../config/globalConfig'
 import { changeLoading } from './loadingActions'
+import { changeNotify } from './notifyActions'
 
 export const actionTypes = {
     GET_TOKEN: 'GET_TOKEN',
@@ -88,10 +89,18 @@ export const login = (credentials) => {
                 }))
                 if (error.response) {
                     if (error.response.status === 401 || error.response.status === 400) {
-                        alert('Senha Incorreta')
+                        dispatch(changeNotify({
+                            open: true,
+                            msg: 'E-mail e/ou senha incorretos',
+                            class: 'error'
+                        }))
                     }
                 } else {
-
+                    dispatch(changeNotify({
+                        open: true,
+                        msg: 'Error ao tentar fazer login',
+                        class: 'error'
+                    }))
                 }
             })
     }

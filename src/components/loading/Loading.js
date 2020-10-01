@@ -33,7 +33,9 @@ const styles = {
 export class Loading extends Component {
 
     handleClose = () => {
-
+        this.props.changeLoading({
+            open: false
+        })
     }
     render() {
         const { classes } = this.props

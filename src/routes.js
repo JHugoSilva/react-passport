@@ -1,14 +1,28 @@
 import React, { Suspense, lazy } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import ProgressBar from './components/circularProgress/ProgressBar'
 const Login = lazy(() => import('./views/login/Login'))
+const Register = lazy(() => import('./views/register/Register'))
+const Painel = lazy(() => import('./views/painel'))
+
+
+const token = localStorage.getItem('access_token')
+const PrivateRoutes = ({ component: Component, ...rest }) => (
+    <Route {...rest} render={props =>
+        token ?
+            (<Component {...props} />) :
+            (<Redirect to={{ pathname: '/login', state: { from: props.location } }} />)
+    } />
+)
 
 const Routes = () => (
     <Router>
         <Suspense fallback={<div className="mt-5 pt-5"><ProgressBar /></div>}>
             <Switch>
+                <Route path="/register" component={Register} />
                 <Route path="/login" component={Login} />
-                <Route path="/" component={Login} />
+                <Route exact path="/" component={Login} />
+                <PrivateRoutes path="/painel" component={Painel} />
             </Switch>
         </Suspense>
     </Router>

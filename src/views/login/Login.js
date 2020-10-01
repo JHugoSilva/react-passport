@@ -9,7 +9,8 @@ import Typography from '@material-ui/core/Typography'
 import Link from '@material-ui/core/Link'
 import { green } from '@material-ui/core/colors'
 import Loading from '../../components/loading/Loading'
-
+import Notify from '../../components/notify/Notify'
+import { baseUrl } from '../../config/globalConfig'
 const ColorButton = withStyles(themes => ({
     root: {
         color: '#FFF',
@@ -25,13 +26,17 @@ export class Login extends Component {
     login = () => {
         const { credentials } = this.props
         this.props.login(credentials).then(() => {
-
+            console.log(credentials)
+            if (this.props.success) {
+                window.location.replace(baseUrl + 'painel')
+            }
         })
     }
     render() {
         return (
             <div>
                 <Loading />
+                <Notify />
                 <Container component="main" maxWidth="xs">
                     <div className="mt-3 mt-md-5">
                         <div className="text-center">
@@ -98,6 +103,7 @@ export class Login extends Component {
 
 const mapStateToProps = (state) => ({
     credentials: state.AuthReducer.credentials,
+    success: state.AuthReducer.success
 })
 
 const mapDispatchToProps = dispatch => ({
